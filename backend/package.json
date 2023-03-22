@@ -1,8 +1,11 @@
 {
-  "name": "hh-lottery-website",
+  "name": "hh-lottery-website-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.",
+  "main": "hardhat.config.js",
+  "directories": {
+    "test": "test"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

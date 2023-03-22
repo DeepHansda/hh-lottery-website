@@ -1,11 +1,13 @@
-node_modules
-.env
-coverage
-coverage.json
-typechain
-typechain-types
+backend/node_modules
+backend/.env
+backend/coverage
+backend/coverage.json
+backend/typechain
+backend/typechain-types
 
-# Hardhat files
-cache
-artifacts
+#Hardhat files
+backend/cache
+backend/artifacts
 
+#Frontend
+frontend/node_modules
