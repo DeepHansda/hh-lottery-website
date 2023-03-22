@@ -8,6 +8,9 @@ backend/typechain-types
 #Hardhat files
 backend/cache
 backend/artifacts
+backend/deployments
 
 #Frontend
 frontend/node_modules
+frontend/.next
+
