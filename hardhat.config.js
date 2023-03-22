@@ -1,5 +1,6 @@
 require("@nomicfoundation/hardhat-toolbox");
 require("dotenv").config();
+require("hardhat-deploy")
 /** @type import('hardhat/config').HardhatUserConfig */
 
 const rpc_url = process.env.RPC_URL;
@@ -15,10 +16,10 @@ module.exports = {
     localhost: {
       chainId: 31337,
     },
-    seoilia: {
+    sepolia: {
       url: rpc_url,
       accounts: [wallet_key],
-      chainId: "",
+      chainId: 11155111,
     },
   },
   etherscan: {
