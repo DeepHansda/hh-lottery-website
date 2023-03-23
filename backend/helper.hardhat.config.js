@@ -24,6 +24,14 @@ const networkConfigs = {
   },
 };
 const developmentChains = ["hardhat", "localhost"];
-const VERIFICATION_BLOCK_CONFIRMATIONS = 6
+const VERIFICATION_BLOCK_CONFIRMATIONS = 6;
+const frontEndAddressFile = "../frontend/src/constants/contractAddress.json";
+const frontEndAbiFile = "../frontend/src/constants/abi.json";
 
-module.exports = { networkConfigs, developmentChains,VERIFICATION_BLOCK_CONFIRMATIONS };
+module.exports = {
+  networkConfigs,
+  developmentChains,
+  VERIFICATION_BLOCK_CONFIRMATIONS,
+  frontEndAddressFile,
+  frontEndAbiFile,
+};

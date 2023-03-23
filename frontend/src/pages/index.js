@@ -2,11 +2,15 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import Header from '@/components/Header'
+import { useMoralis } from 'react-moralis'
+import EnterLottery from '@/components/EnterLottery'
 
 
 const inter = Inter({ subsets: ['latin'] })
 
+const supportedChains = ["31337", "11155111"]
 export default function Home() {
+  const {isWeb3Enabled,chainId} = useMoralis()
   return (
     
     <>
@@ -18,6 +22,14 @@ export default function Home() {
       </Head>
       <main className='w-9/12 mx-auto border'>
         <Header/>
+        <div>
+          {isWeb3Enabled ? <div>
+            {supportedChains.includes(parseInt(chainId).toString())?<div>
+              <EnterLottery/>
+            </div>:<div>{`Please switch to a supported chainId. The supported Chain Ids are: ${supportedChains}`}</div>}
+          </div>:
+          <div><h2>Please Connect to Wallet</h2></div>}
+        </div>
       </main>
     </>
   )
