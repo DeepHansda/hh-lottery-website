@@ -52,9 +52,8 @@ contract Lottery is VRFConsumerBaseV2, AutomationCompatibleInterface {
         i_interval = keepersUpdateInterval;
         s_lastTimeStamp = block.timestamp;
         i_callbackGasLimit = callbackGasLimit;
-        i_gasLane= gasLane;
+        i_gasLane = gasLane;
         i_subscriptionId = subscriptionId;
-
     }
 
     function enterLottery() public payable {
@@ -75,7 +74,7 @@ contract Lottery is VRFConsumerBaseV2, AutomationCompatibleInterface {
         view
         override
         returns (
-            bool upKeepNeeded,
+            bool upkeepNeeded,
             bytes memory /*performData*/
         )
     {
@@ -83,14 +82,15 @@ contract Lottery is VRFConsumerBaseV2, AutomationCompatibleInterface {
         bool timePassed = ((block.timestamp - s_lastTimeStamp) > i_interval);
         bool hasPlayers = s_players.length > 0;
         bool hasBalance = address(this).balance > 0;
-        upKeepNeeded = (isOpened && timePassed && hasPlayers && hasBalance);
+        upkeepNeeded = (isOpened && timePassed && hasPlayers && hasBalance);
+        return (upkeepNeeded, "0x0");
     }
 
     function performUpkeep(
         bytes calldata /*performData*/
     ) external override {
-        (bool upKeepNeeded, ) = checkUpkeep("");
-        if (!upKeepNeeded) {
+        (bool upkeepNeeded, ) = checkUpkeep("");
+        if (!upkeepNeeded) {
             revert Lottery__UpkeepNotNeeded(
                 address(this).balance,
                 s_players.length,
@@ -142,9 +142,11 @@ contract Lottery is VRFConsumerBaseV2, AutomationCompatibleInterface {
         return s_players.length;
     }
 
-    function getContractBalance() public view returns(uint256){
+    function getContractBalance() public view returns (uint256) {
         return address(this).balance;
     }
 
-    
+    function getInterval() public view returns (uint256) {
+        return i_interval;
+    }
 }

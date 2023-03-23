@@ -53,6 +53,12 @@ function EnterLottery() {
     contractAddress:LotteryAddress,
     params:{}
   })
+  const {runContractFunction:checkUpkeep} = useWeb3Contract({
+    functionName:"checkUpkeep",
+    contractAddress:LotteryAddress,
+    abi:contractABI,
+    params:{}
+  })
 
   const successListener = async (tx) => {
     try {
@@ -68,6 +74,7 @@ function EnterLottery() {
     const winner = await getRecentWinner()
     const numOfPlayer = await getNumOfPlayers()
     const balance = await getContractBalance()
+    await checkUpkeep()
     console.log(fee)
     setEntranceFee(fee?.toString());
     setRecentWinner(winner)
@@ -108,7 +115,8 @@ function EnterLottery() {
             <h2>{players}</h2>
           </div>
           <div>
-            <h2>Prize Pool :{Moralis.web3Library.utils.formatUnits(prize.toString())}</h2>
+            {/* <h2>Prize Pool :{Moralis.web3Library.utils.formatUnits(prize.toString())}</h2> */}
+            <h2>Prize Pool :{prize.toString()}</h2>
           </div>
 
         </div>

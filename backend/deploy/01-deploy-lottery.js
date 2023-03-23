@@ -5,21 +5,24 @@ const {
   VERIFICATION_BLOCK_CONFIRMATIONS,
 } = require("../helper.hardhat.config");
 const { verify } = require("../utils/verify");
+const FUND_AMOUNT = ethers.utils.parseEther("1")
 module.exports = async ({ getNamedAccounts, deployments }) => {
   try {
     const { log, deploy } = deployments;
     const { deployer } = await getNamedAccounts();
     const chainId = network.config.chainId;
-    let vrfCoordinatorV2Address, subcriptionId, vrfCoordinatorV2Mock;
+    let vrfCoordinatorV2Address, subscriptionId, vrfCoordinatorV2Mock;
     if (chainId == 31337) {
       vrfCoordinatorV2Mock = await ethers.getContract("VRFCoordinatorV2Mock");
       vrfCoordinatorV2Address = vrfCoordinatorV2Mock.address;
       const trasactionResponse = await vrfCoordinatorV2Mock.createSubscription()
       const trasactionReciept = await trasactionResponse.wait();
-      subcriptionId = trasactionReciept.events[0].args.subId;
+      subscriptionId = trasactionReciept.events[0].args.subId;
+
+      await vrfCoordinatorV2Mock.fundSubscription(subscriptionId, FUND_AMOUNT)
     } else {
       vrfCoordinatorV2Address = networkConfigs[chainId]["vrfCoordinatorV2"];
-      subcriptionId = networkConfigs[chainId]["subscriptionId"];
+      subscriptionId = networkConfigs[chainId]["subscriptionId"];
     }
 
     console.log(vrfCoordinatorV2Address)
@@ -29,7 +32,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const arguments = [
       vrfCoordinatorV2Address,
-      subcriptionId,
+      subscriptionId,
       networkConfigs[chainId]["gasLane"],
       networkConfigs[chainId]["keepersUpdateInterval"],
       networkConfigs[chainId]["lotteryEntranceFee"],
@@ -47,7 +50,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
       const vrfCoordinatorV2Mock = await ethers.getContract(
         "VRFCoordinatorV2Mock"
       );
-      await vrfCoordinatorV2Mock.addConsumer(subcriptionId, lottery.address);
+      await vrfCoordinatorV2Mock.addConsumer(subscriptionId, lottery.address);
     }
 
     if (
